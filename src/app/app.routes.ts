@@ -1,16 +1,24 @@
-﻿import { Routes } from '@angular/router';
+﻿
+import { Routes } from '@angular/router';
 import { adminAuthGuard } from './core/guards/admin-auth.guard';
 
 export const routes: Routes = [
 
+  // ==========================================
+  // ADMIN AUTHENTICATION
+  // ==========================================
   {
     path: 'auth',
     loadComponent: () =>
       import('./features/authentication/auth-layout')
         .then(m => m.AuthLayout),
-    children: [
-      { path: '', pathMatch: 'full', redirectTo: 'login' },
 
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'login'
+      },
       {
         path: 'login',
         loadComponent: () =>
@@ -38,36 +46,28 @@ export const routes: Routes = [
     ]
   },
 
+  // ==========================================
+  // ADMIN DASHBOARD LAYOUT
+  // ==========================================
   {
     path: '',
     canActivate: [adminAuthGuard],
+
     loadComponent: () =>
       import('./layout/admin-layout/admin-layout')
         .then(m => m.AdminLayout),
 
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+
       {
-        path: 'notifications',
-        data: { adminModule: 'notifications' },
-        loadComponent: () =>
-          import('./shared/wayhunter-admin-full/admin-full')
-            .then(m => m.WayhunterAdminFull)
-      },
-      {
-        path: 'audit-logs',
-        data: { adminModule: 'audit-logs' },
-        loadComponent: () =>
-          import('./shared/wayhunter-admin-full/admin-full')
-            .then(m => m.WayhunterAdminFull)
-      },
-      {
-        path: 'manage/:module',
-        loadComponent: () =>
-          import('./shared/admin-management/admin-management')
-            .then(m => m.AdminManagementComponent)
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboard'
       },
 
+      // ======================================
+      // DASHBOARD
+      // ======================================
       {
         path: 'dashboard',
         data: { adminModule: 'dashboard' },
@@ -75,6 +75,10 @@ export const routes: Routes = [
           import('./shared/wayhunter-admin-full/admin-full')
             .then(m => m.WayhunterAdminFull)
       },
+
+      // ======================================
+      // USER MANAGEMENT
+      // ======================================
       {
         path: 'users',
         data: { adminModule: 'users' },
@@ -82,13 +86,23 @@ export const routes: Routes = [
           import('./shared/wayhunter-admin-full/admin-full')
             .then(m => m.WayhunterAdminFull)
       },
+
+      // ======================================
+      // LIVE LOCATION HUNTER VERIFICATION
+      // NEW API CONNECTED PAGE
+      // ======================================
       {
         path: 'location-verification',
         data: { adminModule: 'location-verification' },
         loadComponent: () =>
-          import('./shared/wayhunter-admin-full/admin-full')
-            .then(m => m.WayhunterAdminFull)
+          import(
+            './features/live-verification/live-verification-page'
+          ).then(m => m.LiveVerificationPage)
       },
+
+      // ======================================
+      // ADVERTISEMENT MANAGEMENT
+      // ======================================
       {
         path: 'advertisements',
         data: { adminModule: 'advertisements' },
@@ -96,6 +110,10 @@ export const routes: Routes = [
           import('./shared/wayhunter-admin-full/admin-full')
             .then(m => m.WayhunterAdminFull)
       },
+
+      // ======================================
+      // PLACES MANAGEMENT
+      // ======================================
       {
         path: 'places',
         data: { adminModule: 'places' },
@@ -103,6 +121,10 @@ export const routes: Routes = [
           import('./shared/wayhunter-admin-full/admin-full')
             .then(m => m.WayhunterAdminFull)
       },
+
+      // ======================================
+      // TRIPS & HISTORICAL ROUTES
+      // ======================================
       {
         path: 'trips-historical-routes',
         data: { adminModule: 'trips' },
@@ -110,6 +132,10 @@ export const routes: Routes = [
           import('./shared/wayhunter-admin-full/admin-full')
             .then(m => m.WayhunterAdminFull)
       },
+
+      // ======================================
+      // HAZARDS
+      // ======================================
       {
         path: 'hazards',
         data: { adminModule: 'hazards' },
@@ -117,6 +143,10 @@ export const routes: Routes = [
           import('./shared/wayhunter-admin-full/admin-full')
             .then(m => m.WayhunterAdminFull)
       },
+
+      // ======================================
+      // GROUP TRIPS
+      // ======================================
       {
         path: 'group-trips',
         data: { adminModule: 'group-trips' },
@@ -124,13 +154,23 @@ export const routes: Routes = [
           import('./shared/wayhunter-admin-full/admin-full')
             .then(m => m.WayhunterAdminFull)
       },
+
+      // ======================================
+      // LIVE GAME VERIFICATION
+      // NEW API CONNECTED PAGE
+      // ======================================
       {
         path: 'games',
         data: { adminModule: 'games' },
         loadComponent: () =>
-          import('./shared/wayhunter-admin-full/admin-full')
-            .then(m => m.WayhunterAdminFull)
+          import(
+            './features/live-verification/live-verification-page'
+          ).then(m => m.LiveVerificationPage)
       },
+
+      // ======================================
+      // WALLET & REWARDS
+      // ======================================
       {
         path: 'wallet-rewards',
         data: { adminModule: 'wallet-rewards' },
@@ -138,12 +178,20 @@ export const routes: Routes = [
           import('./shared/wayhunter-admin-full/admin-full')
             .then(m => m.WayhunterAdminFull)
       },
+
+      // ======================================
+      // VOUCHER OPERATIONS
+      // ======================================
       {
         path: 'merchants',
         loadComponent: () =>
           import('./features/voucher-operations/voucher-operations')
             .then(m => m.VoucherOperations)
       },
+
+      // ======================================
+      // REPORTS & ANALYTICS
+      // ======================================
       {
         path: 'reports-analytics',
         data: { adminModule: 'reports' },
@@ -152,19 +200,41 @@ export const routes: Routes = [
             .then(m => m.WayhunterAdminFull)
       },
 
+      // ======================================
+      // NOTIFICATIONS
+      // ======================================
       {
         path: 'notifications',
+        data: { adminModule: 'notifications' },
+        loadComponent: () =>
+          import('./shared/wayhunter-admin-full/admin-full')
+            .then(m => m.WayhunterAdminFull)
+      },
+
+      // ======================================
+      // AUDIT LOGS
+      // ======================================
+      {
+        path: 'audit-logs',
+        data: { adminModule: 'audit-logs' },
+        loadComponent: () =>
+          import('./shared/wayhunter-admin-full/admin-full')
+            .then(m => m.WayhunterAdminFull)
+      },
+
+      // ======================================
+      // GENERAL MANAGEMENT MODULE
+      // ======================================
+      {
+        path: 'manage/:module',
         loadComponent: () =>
           import('./shared/admin-management/admin-management')
             .then(m => m.AdminManagementComponent)
       },
 
-      {
-        path: 'audit-logs',
-        loadComponent: () =>
-          import('./shared/admin-management/admin-management')
-            .then(m => m.AdminManagementComponent)
-      },
+      // ======================================
+      // ADMIN SETTINGS
+      // ======================================
       {
         path: 'settings',
         data: { adminModule: 'settings' },
@@ -172,13 +242,16 @@ export const routes: Routes = [
           import('./shared/wayhunter-admin-full/admin-full')
             .then(m => m.WayhunterAdminFull)
       }
+
     ]
   },
 
-  { path: '**', redirectTo: 'auth/login' }
+  // ==========================================
+  // FALLBACK ROUTE
+  // ==========================================
+  {
+    path: '**',
+    redirectTo: 'auth/login'
+  }
 
 ];
-
-
-
-
