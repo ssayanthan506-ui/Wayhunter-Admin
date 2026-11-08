@@ -103,13 +103,15 @@ export const routes: Routes = [
       // ======================================
       // ADVERTISEMENT MANAGEMENT
       // ======================================
-      {
-        path: 'advertisements',
-        data: { adminModule: 'advertisements' },
-        loadComponent: () =>
-          import('./shared/wayhunter-admin-full/admin-full')
-            .then(m => m.WayhunterAdminFull)
-      },
+
+{
+  path: 'advertisements',
+  data: { adminModule: 'advertisements' },
+  loadComponent: () =>
+    import('./features/advertisements/advertisements-page')
+      .then(m => m.AdvertisementsPage)
+},
+
 
       // ======================================
       // PLACES MANAGEMENT
